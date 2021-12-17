@@ -18,46 +18,51 @@ justify-content: center;
 }
 
 #screenPanel{
+    margin-top: 5%;
     display: flex;
+    align-items: center;
+    justify-content: end;
     background-color: grey;
     width: 80%;
+    height: 5%;
 
     padding: 10pt;
     border: black 4pt solid;
 }
 
-#numbersPanel{
-display:flex;
- flex-direction: column;
-    gap: 5px;
-    align-items: end;
-
-
-}
-
-
-.row{
+#equalRow , #zeroRow {
 display: flex;
-gap: 5px;
-align-items: end;
-justify-content: end;
- 
+align-items: center;
+justify-content: space-between;
 }
+
+#numbersPanel{display:flex;flex-direction: column;gap: 5px;}
+
+
+.row{display: flex;gap: 5px;align-items: end;justify-content: end;}
+
+
 
 .number{
-    margin: auto;
-    padding: auto;
+    margin: 0;
+    padding: 0;
     height: 25px;
     width: 50px;
     background-color: red;
     color: white;
 }
 
+#zero{
+ 
+width: 75px;
+
+}
+
 .numberOp{
-    margin: auto;
-    padding: auto;
-    height: 20px;
-    width: 40px;
+    margin: 0;
+    padding: 0;
+    height: 25px;
+    width: 50px;
     background-color: white;
     color: red;
 
