@@ -77,69 +77,86 @@ function clearAll(){
 clearButton.addEventListener('click', clearAll)
 
 
-//s
+//sum//
 let answer
 let primaryNumber
+let secondaryNumber
+let backupSecondaryNumber
 
-function storingForOperator(){
+
+
+function storingPrimaryNumber(){
 
   let str =  numbersDisplayArray.join('')
   primaryNumber = parseInt(str); //will need to come back when adding decimals//
   numbersDisplayArray = [];
-  screenNumbers.innerText = numbersDisplayArray
+  screenNumbers.innerText = primaryNumber;
   console.log('primary number = ' + primaryNumber)
   return primaryNumber
 }
 
+function storingSecondaryNumber() {
 
+    let str = numbersDisplayArray.join('')
+    secondaryNumber = parseInt(str); //will need to come back when adding decimals//
+    numbersDisplayArray = [];
+    screenNumbers.innerText = primaryNumber;
+    console.log('primary number = ' + primaryNumber)
+    return secondaryNumber
+}
+
+
+
+//adds a first event listener that stores the FIRST value typed into the calculator
+//then it changes the ID of the addition sign so that I can type a new array and run the sum function
+//removes the old event listener so that it stops storing primary value
 let additionStageOne = document.querySelector('#addition');
-additionStageOne.addEventListener('click', storingForOperator, false);
-additionStageOne.addEventListener('click', ()=>{
-    additionStageOne.id = "addition2";
-    additionStageOne.removeEventListener('click', storingForOperator, false);
-    let additionStageTwo = document.querySelector('#addition2')
-    additionStageTwo.addEventListener('click', sum)
-})
+function additionButton(){
+    
+    additionStageOne.addEventListener('click', storingPrimaryNumber, false);
 
+    additionStageOne.addEventListener('click', ()=>{
+        additionStageOne.removeEventListener('click', storingPrimaryNumber, false);
+        additionStageOne.addEventListener('click', sum)
+    },false)
 
-//additionStageOne.removeEventListener('click', storingForOperator, false);
-//additionStageOne.addEventListener('click', sum, false);
-
-
-/*
-additionStageOne.id = "addition2"
-let additionStageTwo = document.querySelector('#addition2')
-additionStageTwo.addEventListener('click', sum)
-
-*/
-
-additionStageOne.removeEventListener
-
-
-
-
+    additionStageOne.addEventListener('click', () => {
+        equalsStageOne.id = "equalsAddition"
+        equalsAddition.addEventListener('click', sum)
+    }, false)
+}
+additionButton();
 
 function sum(){
     console.log(numbersDisplayArray)
     let str =  numbersDisplayArray.join('')
-    let secondaryNumber = parseInt(str); 
+    secondaryNumber = parseInt(str); 
     console.log("primary number = " + primaryNumber + ' secondary number = ' + secondaryNumber)
-
+//This is here to add if no additional number is typed
     if(isNaN(secondaryNumber) == true){
-        answer = primaryNumber + primaryNumber;
+        console.log("answer + Primary Number " +answer + primaryNumber)
+        answer = answer + backupSecondaryNumber ;
         primaryNumber = answer;
         numbersDisplayArray = [];
         screenNumbers.innerText = answer;
         return answer;
     }
     else{
+        backupSecondaryNumber = secondaryNumber;
         answer = primaryNumber + secondaryNumber;
         primaryNumber = answer;
         numbersDisplayArray = [];
         screenNumbers.innerText = answer;
         return answer;
     }
-    
 }
 
 
+//equals//
+let equalsStageOne = document.querySelector("#equals")
+
+equalsStageOne.addEventListener('click', () => {
+    additionStageOne.removeEventListener('click', sum);
+    additionButton();
+
+})
