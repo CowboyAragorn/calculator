@@ -18,7 +18,6 @@ function addToDisplay (x){
 
     screenNumbers.innerText = " "
     numbersDisplayArray.push(x);
-    console.log(numbersDisplayArray)
     screenNumbers.innerText = numbersDisplayArray.join('');
 
 }
@@ -77,5 +76,70 @@ function clearAll(){
 
 clearButton.addEventListener('click', clearAll)
 
+
+//s
+let answer
+let primaryNumber
+
+function storingForOperator(){
+
+  let str =  numbersDisplayArray.join('')
+  primaryNumber = parseInt(str); //will need to come back when adding decimals//
+  numbersDisplayArray = [];
+  screenNumbers.innerText = numbersDisplayArray
+  console.log('primary number = ' + primaryNumber)
+  return primaryNumber
+}
+
+
+let additionStageOne = document.querySelector('#addition');
+additionStageOne.addEventListener('click', storingForOperator, false);
+additionStageOne.addEventListener('click', ()=>{
+    additionStageOne.id = "addition2";
+    additionStageOne.removeEventListener('click', storingForOperator, false);
+    let additionStageTwo = document.querySelector('#addition2')
+    additionStageTwo.addEventListener('click', sum)
+})
+
+
+//additionStageOne.removeEventListener('click', storingForOperator, false);
+//additionStageOne.addEventListener('click', sum, false);
+
+
+/*
+additionStageOne.id = "addition2"
+let additionStageTwo = document.querySelector('#addition2')
+additionStageTwo.addEventListener('click', sum)
+
+*/
+
+additionStageOne.removeEventListener
+
+
+
+
+
+function sum(){
+    console.log(numbersDisplayArray)
+    let str =  numbersDisplayArray.join('')
+    let secondaryNumber = parseInt(str); 
+    console.log("primary number = " + primaryNumber + ' secondary number = ' + secondaryNumber)
+
+    if(isNaN(secondaryNumber) == true){
+        answer = primaryNumber + primaryNumber;
+        primaryNumber = answer;
+        numbersDisplayArray = [];
+        screenNumbers.innerText = answer;
+        return answer;
+    }
+    else{
+        answer = primaryNumber + secondaryNumber;
+        primaryNumber = answer;
+        numbersDisplayArray = [];
+        screenNumbers.innerText = answer;
+        return answer;
+    }
+    
+}
 
 
