@@ -9,7 +9,6 @@ let numberSix = document.querySelector("#six");
 let numberSeven = document.querySelector("#seven");
 let numberEight = document.querySelector("#eight");
 let numberNine = document.querySelector("#nine");
-numberSeven.value = 7
 
 let numbersDisplayArray = []
 
@@ -65,25 +64,69 @@ numberNine.addEventListener("click", () => {
     addToDisplay(9)
 });
 
-//Sets up clear button to erase the visible screen. Will need to come back
-//to erase hidden operation arrays//
-let clearButton = document.querySelector('#clear')
 
-function clearAll() {
-    numbersDisplayArray = []
-    screenNumbers.innerText = numbersDisplayArray
-    primaryNumber = 0
-    secondaryNumber = 0
-    backupSecondaryNumber = 0
-    answer = 0
-    additionStageOne.removeEventListener('click', sum)
-    equalsStageOne.removeEventListener('click', sum, false)
-    additionButton();
-    console.log(numbersDisplayArray);
+
+let primaryNumber 
+let secondaryNumber
+let currentOperation
+let reducer
+let display;
+let calculationArray = []
+let storageNumberForEquals
+let addToCalc
+let additionButton = document.querySelector("#addition")
+let equalButton = document.querySelector('#equals')
+
+
+additionButton.addEventListener("click",() =>{
+    storeNumbers()
+    currentOperation = 'addition'
+})
+
+equalButton.addEventListener('click', () =>{
+    storeNumbers();
+    if(currentOperation === 'addition'){
+        reducer = (x,y) => x + y;
+        //reducer = calculationArray[0] + calculationArray[1];
+        sum();
+    }
+    else{
+        console.log('something is broken!')
+        return 
+    }
+})
+
+
+
+function sum(){
+    if(calculationArray[1] == undefined){
+        calculationArray[1] = storageNumberForEquals;
+    }
+    storageNumberForEquals = calculationArray[1]
+    display = calculationArray.reduce(reducer);
+    console.log('display = ' + display)
+    numbersDisplayArray = [display];
+    calculationArray = [];
+    console.log('calculationArray after sum = ' + calculationArray)
+    screenNumbers.innerText = display;
 }
 
-clearButton.addEventListener('click', clearAll)
 
+
+function storeNumbers(){
+    let str = numbersDisplayArray.join('')
+    addToCalc = parseInt(str); //will need to come back when adding decimals//
+    calculationArray.push(addToCalc)
+    console.log('calculationArray = '+calculationArray)
+    numbersDisplayArray = [];
+    screenNumbers.innerText = addToCalc;
+}
+
+
+
+
+//Original code for addition with a bunch of event listeners and odd combinations//
+/* 
 
 //sum//
 let answer
@@ -105,6 +148,27 @@ function storingPrimaryNumber() {
     equalsStageOne.addEventListener('click', sum)
     return primaryNumber
 }
+
+
+//Sets up clear button to erase the visible screen. Will need to come back
+//to erase hidden operation arrays//
+let clearButton = document.querySelector('#clear')
+
+function clearAll() {
+    numbersDisplayArray = []
+    screenNumbers.innerText = numbersDisplayArray
+    primaryNumber = 0
+    secondaryNumber = 0
+    backupSecondaryNumber = 0
+    answer = 0
+    additionStageOne.removeEventListener('click', sum)
+    equalsStageOne.removeEventListener('click', sum, false)
+    additionButton();
+    console.log(numbersDisplayArray);
+}
+
+clearButton.addEventListener('click', clearAll)
+
 
 
 
@@ -162,3 +226,6 @@ equalsStageOne.addEventListener('click', () => {
     additionStageOne.removeEventListener('click', sum);
 
 })
+
+
+*/
