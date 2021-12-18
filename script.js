@@ -76,8 +76,13 @@ let storageNumberForEquals
 let addToCalc
 let additionButton = document.querySelector("#addition")
 let equalButton = document.querySelector('#equals')
+let clearButton = document.querySelector('#clear')
 
 
+
+
+
+//Capture a number and make sure that the sign is addition
 additionButton.addEventListener("click",() =>{
     storeNumbers()
     currentOperation = 'addition'
@@ -97,15 +102,44 @@ equalButton.addEventListener('click', () =>{
 })
 
 
+clearButton.addEventListener('click', clear);
+
+//clears. Probably need to make it default to zero
+function clear(){
+    currentOperation = ' ';
+    numbersDisplayArray = [];
+    calculationArray = [];
+    screenNumbers.innerText = ' ';
+}
+
+
+
+//adds numbers to the calculation array based on what was typed into 
+//the calc
+function storeNumbers() {
+    let str = numbersDisplayArray.join('')
+    addToCalc = parseInt(str); //will need to come back when adding decimals//
+    calculationArray.push(addToCalc)
+    console.log('calculationArray = ' + calculationArray)
+    //Resets number display so that a new number can be typed in and parsed
+    numbersDisplayArray = [];
+    screenNumbers.innerText = addToCalc;
+}
+
 
 function sum(){
+    //This if statement assigns the second number for the equal sign so that
+    //you can continue to press equals to add last number typed
     if(calculationArray[1] == undefined){
         calculationArray[1] = storageNumberForEquals;
     }
     storageNumberForEquals = calculationArray[1]
     display = calculationArray.reduce(reducer);
     console.log('display = ' + display)
+//number display has to equal the calculation so that it is captured by next
+//storing
     numbersDisplayArray = [display];
+//calculation array has to be reset so that adding only evaluates two numbers
     calculationArray = [];
     console.log('calculationArray after sum = ' + calculationArray)
     screenNumbers.innerText = display;
@@ -113,14 +147,6 @@ function sum(){
 
 
 
-function storeNumbers(){
-    let str = numbersDisplayArray.join('')
-    addToCalc = parseInt(str); //will need to come back when adding decimals//
-    calculationArray.push(addToCalc)
-    console.log('calculationArray = '+calculationArray)
-    numbersDisplayArray = [];
-    screenNumbers.innerText = addToCalc;
-}
 
 
 
