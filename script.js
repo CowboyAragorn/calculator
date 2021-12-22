@@ -72,7 +72,7 @@ let currentOperation;
 let reducer;
 let display;
 let calculationArray = [];
-let storageNumberForEquals;
+let storageNumberForEquals = 0;
 let addToCalc;
 let additionButton = document.querySelector("#addition");
 let subtractionButton = document.querySelector('#subtraction');
@@ -92,15 +92,35 @@ let clearButton = document.querySelector('#clear');
        screenNumbers.innerText = calculationArray
    }
 */
+/*
+  //Allows you to use the operator sign continuosly without having to go to equals//
+    else if (calculationArray[0] != undefined && calculationArray[1] == undefined) {
+    storeNumbers();
+    operatorAssignment();
+    numbersDisplayArray = []
+    calculationArray = [display] //Calc array was being completely reset, this solves by equaling last total//
+    screenNumbers.innerText = calculationArray
+
+}
+*/
 
 
+//Best working one for functional operators you can click without equals//
+//Put above operator change to work//
+if (calculationArray[0] != undefined && calculationArray[1] == undefined) {
+    storeNumbers();
+    operatorAssignment();
+    combineOperators();
+}
 
 //Capture a number and make sure that the sign is addition
 additionButton.addEventListener("click",() =>{
     currentOperation = 'addition';
+    //no clue why this doesnt want to be else if// 
     if (calculationArray[0] == undefined) {
     storeNumbers()
     }
+
     //Tells user which operator they are using//
     additionButton.classList.add('operatorBorder');
     subtractionButton.classList.remove('operatorBorder');
@@ -114,6 +134,7 @@ subtractionButton.addEventListener("click", () => {
     if (calculationArray[0] == undefined) {
         storeNumbers()
     }
+
 //Tells user which operator they are using//
     additionButton.classList.remove('operatorBorder');
     subtractionButton.classList.add('operatorBorder');
@@ -126,6 +147,7 @@ multiplicationButton.addEventListener("click", () => {
     if (calculationArray[0] == undefined) {
         storeNumbers()
     }
+  
     //Tells user which operator they are using//
     additionButton.classList.remove('operatorBorder');
     subtractionButton.classList.remove('operatorBorder');
@@ -138,40 +160,48 @@ divisionButton.addEventListener("click", () => {
     if (calculationArray[0] == undefined) {
         storeNumbers()
     }
-    //Tells user which operator they are using//
     additionButton.classList.remove('operatorBorder');
     subtractionButton.classList.remove('operatorBorder');
     multiplicationButton.classList.remove('operatorBorder');
     divisionButton.classList.add('operatorBorder');
 })
 
-//Current bug that happens when you press an operator twice
-equalButton.addEventListener('click', () =>{
-    storeNumbers();
-    if(currentOperation === 'addition'){
+
+function operatorAssignment(){
+    if (currentOperation === 'addition') {
         reducer = (x, y) => x + y;
         //reducer = calculationArray[0] + calculationArray[1];
-        combine();
+       
     }
     else if (currentOperation === 'subtraction') {
         reducer = (x, y) => x - y;
         //reducer = calculationArray[0] - calculationArray[1];
-        combine();
+        
     }
     else if (currentOperation === 'multiplication') {
         reducer = (x, y) => x * y;
         //reducer = calculationArray[0] - calculationArray[1];
-        combine();
+    
     }
     else if (currentOperation === 'division') {
         reducer = (x, y) => x / y;
         //reducer = calculationArray[0] - calculationArray[1];
-        combine();
+     
     }
-    else{
+    else {
         console.log('something is broken!')
-        return 
+        return
     }
+
+}
+
+
+
+//Current bug that happens when you press an operator twice
+equalButton.addEventListener('click', () =>{
+    storeNumbers();
+    operatorAssignment();
+    combine();
     additionButton.classList.remove('operatorBorder');
     subtractionButton.classList.remove('operatorBorder');
     multiplicationButton.classList.remove('operatorBorder');
@@ -187,6 +217,10 @@ function clear(){
     numbersDisplayArray = [];
     calculationArray = [];
     screenNumbers.innerText = ' ';
+    additionButton.classList.remove('operatorBorder');
+    subtractionButton.classList.remove('operatorBorder');
+    multiplicationButton.classList.remove('operatorBorder');
+    divisionButton.classList.remove('operatorBorder');
 }
 
 
@@ -195,6 +229,10 @@ function clear(){
 //the calc
 function storeNumbers() {
     let str = numbersDisplayArray.join('')
+//defaults to 0 if nothing typed//
+    if (str === ''){
+        str = '0'
+    }
     addToCalc = parseInt(str); //will need to come back when adding decimals//
     calculationArray.push(addToCalc)
     console.log('calculationArray = ' + calculationArray)
@@ -210,7 +248,11 @@ function combine(){
     if(calculationArray[1] == undefined){
         calculationArray[1] = storageNumberForEquals;
     }
-    storageNumberForEquals = calculationArray[1]
+    storageNumberForEquals = calculationArray[1];
+    if(currentOperation === 'division' && calculationArray[1] === 0){
+        clear()
+        return screenNumbers.innerText = 'We Gotta Wiseguy'
+    }
     display = calculationArray.reduce(reducer);
     console.log('display = ' + display)
 //number display has to equal the calculation so that it is captured by next
@@ -224,7 +266,15 @@ function combine(){
 }
 
 
-
+function combineOperators(){
+    numbersDisplayArray = []
+    calculationArray = [display] //Calc array was being completely reset, this solves by equaling last total//
+    screenNumbers.innerText = display
+    additionButton.classList.remove('operatorBorder');
+    subtractionButton.classList.remove('operatorBorder');
+    multiplicationButton.classList.remove('operatorBorder');
+    divisionButton.classList.remove('operatorBorder');
+}
 
 
 
