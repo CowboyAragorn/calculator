@@ -1,3 +1,4 @@
+let currentCalculation = document.querySelector("#currentCalculation")
 let screenNumbers = document.querySelector("#screenNumbers");
 let numberZero = document.querySelector("#zero");
 let numberOne = document.querySelector("#one");
@@ -20,6 +21,9 @@ function addToDisplay(x) {
     screenNumbers.innerText = numbersDisplayArray.join('');
 
 }
+
+
+
 //Event listeners for each button. Probably a more elegant way to do this,
 //but was a simple copy paste//
 
@@ -69,6 +73,7 @@ numberNine.addEventListener("click", () => {
 let primaryNumber;
 let secondaryNumber
 let currentOperation;
+let currentOperationStr;
 let reducer;
 let display;
 let calculationArray = [];
@@ -82,39 +87,11 @@ let divisionButton = document.querySelector('#division');
 let equalButton = document.querySelector('#equals');
 let clearButton = document.querySelector('#clear');
 
-//For use when evaluating only two numbers, making addition standalone//
-//Need this for continually changing operator, making sure addition is only//
-//Evaluating two nums at once.
-/*   if (calculationArray[1] != undefined) {
-       reducer = (x, y) => x + y;
-       combine();
-       numbersDisplayArray = []
-       calculationArray = [display] //Calc array was being completely reset, this solves by equaling last total//
-       screenNumbers.innerText = calculationArray
-   }
-*/
-/*
-  //Allows you to use the operator sign continuosly without having to go to equals//
-    else if (calculationArray[0] != undefined && calculationArray[1] == undefined) {
-    storeNumbers();
-    operatorAssignment();
-    numbersDisplayArray = []
-    calculationArray = [display] //Calc array was being completely reset, this solves by equaling last total//
-    screenNumbers.innerText = calculationArray
 
-}
-*/
+ 
 
 
-//Best working one for functional operators you can click without equals//
-//Put above operator change to work//
-/*
-if (calculationArray[0] != undefined && calculationArray[1] == undefined) {
-    storeNumbers();
-    operatorAssignment();
-    afterCombineForOperators();
-}
-*/
+
 
 //Capture a number and make sure that the sign is addition
 additionButton.addEventListener("click",() =>{
@@ -130,12 +107,15 @@ additionButton.addEventListener("click",() =>{
         afterCombineForOperators();
     }
     currentOperation = 'addition';
+    currentOperationStr = '+'
+
     //no clue why this doesnt want to be else if// 
     if (calculationArray[0] == undefined) {
     storeNumbers()
     }
 
     //Tells user which operator they are using//
+    currentCalculation.innerText = (calculationArray[0] + ' ' + currentOperationStr)
     additionButton.classList.add('operatorBorder');
     subtractionButton.classList.remove('operatorBorder');
     multiplicationButton.classList.remove('operatorBorder');
@@ -153,12 +133,15 @@ subtractionButton.addEventListener("click", () => {
         afterCombineForOperators();
     }
     currentOperation = 'subtraction';
+    currentOperationStr = '-'
+    
     subtractionButton.classList.add('operatorBorder');
     if (calculationArray[0] == undefined) {
         storeNumbers()
     }
 
 //Tells user which operator they are using//
+    currentCalculation.innerText = (calculationArray[0] + ' ' + currentOperationStr)
     additionButton.classList.remove('operatorBorder');
     subtractionButton.classList.add('operatorBorder');
     multiplicationButton.classList.remove('operatorBorder');
@@ -177,11 +160,14 @@ multiplicationButton.addEventListener("click", () => {
     }
 
     currentOperation = 'multiplication';
+    currentOperationStr = 'x'
+
     if (calculationArray[0] == undefined) {
         storeNumbers()
     }
   
     //Tells user which operator they are using//
+    currentCalculation.innerText = (calculationArray[0] + ' ' + currentOperationStr)
     additionButton.classList.remove('operatorBorder');
     subtractionButton.classList.remove('operatorBorder');
     multiplicationButton.classList.add('operatorBorder');
@@ -199,9 +185,13 @@ divisionButton.addEventListener("click", () => {
         afterCombineForOperators();
     }
     currentOperation = 'division';
+    currentOperationStr = '/'
+
     if (calculationArray[0] == undefined) {
         storeNumbers()
     }
+
+    currentCalculation.innerText = (calculationArray[0] + ' ' + currentOperationStr)
     additionButton.classList.remove('operatorBorder');
     subtractionButton.classList.remove('operatorBorder');
     multiplicationButton.classList.remove('operatorBorder');
@@ -248,6 +238,7 @@ equalButton.addEventListener('click', () =>{
     storeNumbers();
     operatorAssignment();
     combine();
+    currentCalculation.innerText = ' '
     additionButton.classList.remove('operatorBorder');
     subtractionButton.classList.remove('operatorBorder');
     multiplicationButton.classList.remove('operatorBorder');
@@ -263,6 +254,7 @@ function clear(){
     numbersDisplayArray = [];
     calculationArray = [];
     screenNumbers.innerText = ' ';
+    currentCalculation.innerText = ' '
     additionButton.classList.remove('operatorBorder');
     subtractionButton.classList.remove('operatorBorder');
     multiplicationButton.classList.remove('operatorBorder');

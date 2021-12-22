@@ -20,14 +20,37 @@ justify-content: center;
 #screenPanel{
     margin-top: 5%;
     display: flex;
-    align-items: center;
-    justify-content: end;
+    flex-direction: column;
+    justify-content: center;
     background-color: grey;
     width: 80%;
-    height: 5%;
-
     padding: 10pt;
+    gap: 5pt;
+    height: 15%;
     border: black 4pt solid;
+}
+
+#currentCalculation , #screenNumbers{
+    margin: 0pt;
+    padding: 0pt;
+    width: 100%;
+    
+}
+
+#screenNumbers{
+    display: flex;
+    align-items: right;
+    justify-content: right;
+    height: 20%
+
+}
+
+#currentCalculation{
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    height: 100%;
+   
 }
 
 #equalRow , #zeroRow {
