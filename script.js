@@ -409,12 +409,12 @@ function afterCombineForOperators() {
 
 
 
-//Current bug that happens when you press an operator twice
+//Equal store, assigns, and commbines so that you can continue to press equals to get answer//
 equalButton.addEventListener('click', () =>{
     storeNumbers();
     operatorAssignment();
     combine();
-    storageNumberForEquals;
+    //storageNumberForEquals;
     currentCalculation.innerText = ' '
     additionButton.classList.remove('operatorBorder');
     subtractionButton.classList.remove('operatorBorder');
@@ -425,7 +425,7 @@ equalButton.addEventListener('click', () =>{
 
 clearButton.addEventListener('click', clear);
 
-//clears. Probably need to make it default to zero.
+
 function clear(){
     decimalActive = true;
     currentOperation = ' ';
@@ -441,7 +441,7 @@ function clear(){
 }
 
 
-let decimalBackspace
+let decimalBackspace //Turns the decimal back on if you backspace it.
 
 backspaceButton.addEventListener('click', backspace);
 
