@@ -62,7 +62,7 @@ justify-content: center;
    
 }
 
-#clearRow , #zeroRow {
+#zeroRow {
 display: flex;
 align-items: center;
 justify-content: space-between;
@@ -84,9 +84,20 @@ justify-content: space-between;
     color: white;
 }
 
+.secretBuffer{
+    margin: 0;
+    padding: 0;
+    height: 25px;
+    width: 50px;
+    background-color: cornflowerblue;
+    color: cornflowerblue;
+
+}
+
+
 #zero{
  
-width: 75px;
+width: 105px;
 
 }
 
