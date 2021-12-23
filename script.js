@@ -507,7 +507,15 @@ document.addEventListener('keypress', (event) => {
             return lengthCheckerBoolean = false;
         }
     }
-    else if (event.code == 'Numpad6' || event.code == 'Digit7') {
+    else if (event.code == 'Numpad6' || event.code == 'Digit6') {
+        if (lengthCheckerBoolean === false) {
+            addToDisplay(6)
+        }
+        else {
+            return lengthCheckerBoolean = false;
+        }
+    }
+    else if (event.code == 'Numpad7' || event.code == 'Digit7') {
         if (lengthCheckerBoolean === false) {
             addToDisplay(7)
         }
