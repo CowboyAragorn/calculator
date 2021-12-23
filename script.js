@@ -356,6 +356,7 @@ function operatorAssignment(){
      
     }
     else {
+        reducer = (x, y) => x + y; //This is for if you hit 0. Reducer defaults to adding to display same #)
         console.log('something is broken!')
         return
     }
@@ -413,6 +414,7 @@ equalButton.addEventListener('click', () =>{
     storeNumbers();
     operatorAssignment();
     combine();
+    storageNumberForEquals;
     currentCalculation.innerText = ' '
     additionButton.classList.remove('operatorBorder');
     subtractionButton.classList.remove('operatorBorder');
