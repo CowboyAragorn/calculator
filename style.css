@@ -1,6 +1,15 @@
+body{
+    background-image: url(img/deskSurface.jpg);
+    background-size: cover
+    ;
+}
+
+
+
 #calcContainer{
 display: flex;
-gap: 5px;
+margin-top: 15%;
+gap: 30px;
 align-items: center;
 justify-content: center;
 }
