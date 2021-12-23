@@ -425,6 +425,7 @@ clearButton.addEventListener('click', clear);
 
 //clears. Probably need to make it default to zero.
 function clear(){
+    decimalActive = true;
     currentOperation = ' ';
     storageNumberForEquals = 0;
     numbersDisplayArray = [];
@@ -438,15 +439,19 @@ function clear(){
 }
 
 
-
+let decimalBackspace
 
 backspaceButton.addEventListener('click', backspace);
 
 function backspace(){
-    numbersDisplayArray.splice(-1,1);
-    //addToDisplay();
+    decimalBackspace = [];
+    //numbersDisplayArray.splice(-1,1);
+    decimalBackspace = numbersDisplayArray.splice(-1, 1);
     screenNumbers.innerText = numbersDisplayArray.join('');
-
+    
+    if (decimalBackspace == '.') {
+        decimalActive = true;
+    }
 }
 
 
@@ -526,6 +531,22 @@ document.addEventListener('keypress', (event) => {
             return lengthCheckerBoolean = false;
         }
     }
+    else if (event.code == 'period' || event.code == 'NumpadDecimal') {
+        if (decimalActive === true) {
+            decimalActive = false;
+            checkLength();
+            if (lengthCheckerBoolean === false) {
+                addToDisplay('.')
+            }
+            else {
+                return lengthCheckerBoolean = false;
+            }
+        }
+    }
+
+
+
+
     else if (event.code == 'NumpadAdd') {
         if (calculationArray[0] != undefined && calculationArray[1] == undefined) {
             storeNumbers();
@@ -626,3 +647,23 @@ document.addEventListener('keypress', (event) => {
         divisionButton.classList.add('operatorBorder');
     }
 }, false);
+
+
+document.addEventListener('keydown', (event) => {
+     if (event.code == 'Backspace') {
+        backspace();
+    }
+    else if (event.code == 'Enter' || event.code == 'NumpadEnter' ) {
+         storeNumbers();
+         operatorAssignment();
+         combine();
+         currentCalculation.innerText = ' '
+         additionButton.classList.remove('operatorBorder');
+         subtractionButton.classList.remove('operatorBorder');
+         multiplicationButton.classList.remove('operatorBorder');
+         divisionButton.classList.remove('operatorBorder');
+    }
+
+}, false);
+
+
