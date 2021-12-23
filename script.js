@@ -25,6 +25,10 @@ function addToDisplay(x) {
 
 }
 
+
+
+
+
 //Converts numberDisplay to string so that you are only allowed to type in 9 numbers. Prevents overflow//
 function checkLength() {
     let str
@@ -167,6 +171,10 @@ decimalButton.addEventListener("click", () => {
         }
 }
 });
+
+
+
+
 
 
 
@@ -441,3 +449,180 @@ function backspace(){
 
 }
 
+
+
+
+//Keyboard support, copy pasted. Again, probably a more elegant way to do this//
+document.addEventListener('keypress', (event) => {
+    if (event.code == 'Numpad0' || event.code == 'Digit0') {
+        if (lengthCheckerBoolean === false) {
+            addToDisplay(0)
+        }
+        else {
+            return lengthCheckerBoolean = false;
+        }
+    }
+    else if (event.code == 'Numpad1' || event.code == 'Digit1') {
+        if (lengthCheckerBoolean === false) {
+            addToDisplay(1)
+        }
+        else {
+            return lengthCheckerBoolean = false;
+        }
+    }
+    else if (event.code == 'Numpad2' || event.code == 'Digit2') {
+        if (lengthCheckerBoolean === false) {
+            addToDisplay(2)
+        }
+        else {
+            return lengthCheckerBoolean = false;
+        }
+    }
+    else if (event.code == 'Numpad3' || event.code == 'Digit3') {
+        if (lengthCheckerBoolean === false) {
+            addToDisplay(3)
+        }
+        else {
+            return lengthCheckerBoolean = false;
+        }
+    }
+    else if (event.code == 'Numpad4' || event.code == 'Digit4') {
+        if (lengthCheckerBoolean === false) {
+            addToDisplay(4)
+        }
+        else {
+            return lengthCheckerBoolean = false;
+        }
+    }
+    else if (event.code == 'Numpad5' || event.code == 'Digit5') {
+        if (lengthCheckerBoolean === false) {
+            addToDisplay(5)
+        }
+        else {
+            return lengthCheckerBoolean = false;
+        }
+    }
+    else if (event.code == 'Numpad6' || event.code == 'Digit7') {
+        if (lengthCheckerBoolean === false) {
+            addToDisplay(7)
+        }
+        else {
+            return lengthCheckerBoolean = false;
+        }
+    }
+    else if (event.code == 'Numpad8' || event.code == 'Digit8') {
+        if (lengthCheckerBoolean === false) {
+            addToDisplay(8)
+        }
+        else {
+            return lengthCheckerBoolean = false;
+        }
+    }
+    else if (event.code == 'Numpad9' || event.code == 'Digit9') {
+        if (lengthCheckerBoolean === false) {
+            addToDisplay(9)
+        }
+        else {
+            return lengthCheckerBoolean = false;
+        }
+    }
+    else if (event.code == 'NumpadAdd') {
+        if (calculationArray[0] != undefined && calculationArray[1] == undefined) {
+            storeNumbers();
+            operatorAssignment();
+            combine();
+
+            if (divideBy0Checker === true) {
+                return; //Fixes dividing by zero while chaining operators//
+            }
+            afterCombineForOperators();
+        }
+        currentOperation = 'addition';
+        currentOperationStr = '+'
+
+        //no clue why this doesnt want to be else if// 
+        if (calculationArray[0] == undefined) {
+            storeNumbers()
+        }
+
+        //Tells user which operator they are using//
+        currentCalculation.innerText = (calculationArray[0] + ' ' + currentOperationStr)
+        additionButton.classList.add('operatorBorder');
+        subtractionButton.classList.remove('operatorBorder');
+        multiplicationButton.classList.remove('operatorBorder');
+        divisionButton.classList.remove('operatorBorder');
+    }
+    else if (event.code == 'NumpadSubtract') {
+        if (calculationArray[0] != undefined && calculationArray[1] == undefined) {
+            storeNumbers();
+            operatorAssignment();
+            combine();
+            if (divideBy0Checker === true) {
+                return;
+            }
+            afterCombineForOperators();
+        }
+        currentOperation = 'subtraction';
+        currentOperationStr = '-'
+
+        subtractionButton.classList.add('operatorBorder');
+        if (calculationArray[0] == undefined) {
+            storeNumbers()
+        }
+
+        //Tells user which operator they are using//
+        currentCalculation.innerText = (calculationArray[0] + ' ' + currentOperationStr)
+        additionButton.classList.remove('operatorBorder');
+        subtractionButton.classList.add('operatorBorder');
+        multiplicationButton.classList.remove('operatorBorder');
+        divisionButton.classList.remove('operatorBorder');
+    }
+    else if (event.code == 'NumpadMultiply') {
+        if (calculationArray[0] != undefined && calculationArray[1] == undefined) {
+            storeNumbers();
+            operatorAssignment();
+            combine();
+            if (divideBy0Checker === true) {
+                return;
+            }
+            afterCombineForOperators();
+        }
+
+        currentOperation = 'multiplication';
+        currentOperationStr = 'x'
+
+        if (calculationArray[0] == undefined) {
+            storeNumbers()
+        }
+
+        //Tells user which operator they are using//
+        currentCalculation.innerText = (calculationArray[0] + ' ' + currentOperationStr)
+        additionButton.classList.remove('operatorBorder');
+        subtractionButton.classList.remove('operatorBorder');
+        multiplicationButton.classList.add('operatorBorder');
+        divisionButton.classList.remove('operatorBorder');
+    }
+    else if (event.code == 'NumpadDivide') {
+        if (calculationArray[0] != undefined && calculationArray[1] == undefined) {
+            storeNumbers();
+            operatorAssignment();
+            combine();
+            if (divideBy0Checker === true) {
+                return;
+            }
+            afterCombineForOperators();
+        }
+        currentOperation = 'division';
+        currentOperationStr = '/'
+
+        if (calculationArray[0] == undefined) {
+            storeNumbers()
+        }
+
+        currentCalculation.innerText = (calculationArray[0] + ' ' + currentOperationStr)
+        additionButton.classList.remove('operatorBorder');
+        subtractionButton.classList.remove('operatorBorder');
+        multiplicationButton.classList.remove('operatorBorder');
+        divisionButton.classList.add('operatorBorder');
+    }
+}, false);
