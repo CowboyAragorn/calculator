@@ -10,8 +10,11 @@ let numberSix = document.querySelector("#six");
 let numberSeven = document.querySelector("#seven");
 let numberEight = document.querySelector("#eight");
 let numberNine = document.querySelector("#nine");
+let decimalButton = document.querySelector("#decimal");
+
 
 let numbersDisplayArray = []
+let lengthCheckerBoolean = false;
 
 //Adds numbers to an array, converts array to a string for display//
 function addToDisplay(x) {
@@ -22,50 +25,147 @@ function addToDisplay(x) {
 
 }
 
+//Converts numberDisplay to string so that you are only allowed to type in 9 numbers. Prevents overflow//
+function checkLength() {
+    let str
+    let strConvert
+    let strLength = 0;
+  
+    if (numbersDisplayArray[0] != undefined) {
+        lengthCheckerBoolean = false;
+        str = numbersDisplayArray
+        strConvert = str.join('');
+        strLength = strConvert.length;
+        if (strLength >= 9) {
+            lengthCheckerBoolean = true;
+        }
+
+    }
+    else{
+        return
+    }
+}
+
 
 
 //Event listeners for each button. Probably a more elegant way to do this,
 //but was a simple copy paste//
+//Checks length before adding to display//
 
 numberZero.addEventListener("click", () => {
-    addToDisplay(0)
+    checkLength();
+    if (lengthCheckerBoolean === false) {
+        addToDisplay(0)
+    }
+    else {
+        return lengthCheckerBoolean = false;
+    }
 });
 
 numberOne.addEventListener("click", () => {
+    checkLength();
+    if(lengthCheckerBoolean === false){
     addToDisplay(1)
+    }
+    else{
+        return lengthCheckerBoolean = false;
+    }
 });
 
 numberTwo.addEventListener("click", () => {
-    addToDisplay(2)
+    checkLength();
+    if (lengthCheckerBoolean === false) {
+        addToDisplay(2)
+    }
+    else {
+        return lengthCheckerBoolean = false;
+    }
 });
 
 numberThree.addEventListener("click", () => {
-    addToDisplay(3)
+    checkLength();
+    if (lengthCheckerBoolean === false) {
+        addToDisplay(3)
+    }
+    else {
+        return lengthCheckerBoolean = false;
+    }
 });
 
 numberFour.addEventListener("click", () => {
-    addToDisplay(4)
+    checkLength();
+    if (lengthCheckerBoolean === false) {
+        addToDisplay(4)
+    }
+    else {
+        return lengthCheckerBoolean = false;
+    }
 });
 
 numberFive.addEventListener("click", () => {
-    addToDisplay(5)
+    checkLength();
+    if (lengthCheckerBoolean === false) {
+        addToDisplay(5)
+    }
+    else {
+        return lengthCheckerBoolean = false;
+    }
 });
 
 numberSix.addEventListener("click", () => {
-    addToDisplay(6)
+    checkLength();
+    if (lengthCheckerBoolean === false) {
+        addToDisplay(6)
+    }
+    else {
+        return lengthCheckerBoolean = false;
+    }
 });
 
 numberSeven.addEventListener("click", () => {
-    addToDisplay(7)
+    checkLength();
+    if (lengthCheckerBoolean === false) {
+        addToDisplay(7)
+    }
+    else {
+        return lengthCheckerBoolean = false;
+    }
 });
 
 numberEight.addEventListener("click", () => {
-    addToDisplay(8)
+    checkLength();
+    if (lengthCheckerBoolean === false) {
+        addToDisplay(8)
+    }
+    else {
+        return lengthCheckerBoolean = false;
+    }
 });
 
 
 numberNine.addEventListener("click", () => {
-    addToDisplay(9)
+    checkLength();
+    if (lengthCheckerBoolean === false) {
+        addToDisplay(9)
+    }
+    else {
+        return lengthCheckerBoolean = false;
+    }
+});
+
+let decimalActive = true;
+
+decimalButton.addEventListener("click", () => {
+    if(decimalActive === true){
+        decimalActive = false;
+        checkLength();
+        if (lengthCheckerBoolean === false) {
+            addToDisplay('.')
+        }
+        else {
+            return lengthCheckerBoolean = false;
+        }
+}
 });
 
 
@@ -86,6 +186,7 @@ let multiplicationButton = document.querySelector('#multiplication');
 let divisionButton = document.querySelector('#division');
 let equalButton = document.querySelector('#equals');
 let clearButton = document.querySelector('#clear');
+let backspaceButton = document.querySelector('#backspace')
 
 
  
@@ -122,6 +223,7 @@ additionButton.addEventListener("click",() =>{
     divisionButton.classList.remove('operatorBorder');
 })
 
+
 subtractionButton.addEventListener("click", () => {
     if (calculationArray[0] != undefined && calculationArray[1] == undefined) {
         storeNumbers();
@@ -147,6 +249,7 @@ subtractionButton.addEventListener("click", () => {
     multiplicationButton.classList.remove('operatorBorder');
     divisionButton.classList.remove('operatorBorder');
 })
+
 
 multiplicationButton.addEventListener("click", () => {
     if (calculationArray[0] != undefined && calculationArray[1] == undefined) {
@@ -201,6 +304,26 @@ divisionButton.addEventListener("click", () => {
 
 
 
+//adds numbers to the calculation array based on what was typed into 
+//the calc
+function storeNumbers() {
+    let str = numbersDisplayArray.join('')
+    //defaults to 0 if nothing typed. Defaults to 1 if selecting mult or div//
+    if (str === '' && (currentOperation === 'multiplication' || currentOperation === 'division')) {
+        str = '1'
+    }
+    else if (str === '') {
+        str = '0'
+    }
+    addToCalc = parseFloat(str); //ParseFloat beats parseInt for adding decimals//
+    calculationArray.push(addToCalc)
+    console.log('calculationArray = ' + calculationArray)
+    //Resets number display so that a new number can be typed in and parsed
+    numbersDisplayArray = [];
+    screenNumbers.innerText = addToCalc;
+    decimalActive = true;
+}
+
 
 //changes operator variable, allows you to switch around//
 function operatorAssignment(){
@@ -231,6 +354,50 @@ function operatorAssignment(){
 
 }
 
+function combine() {
+    //This if statement assigns the second number for the equal sign so that
+    //you can continue to press equals to add last number typed
+    divideBy0Checker = false;
+    if (calculationArray[1] == undefined) {
+        calculationArray[1] = storageNumberForEquals;
+    }
+    storageNumberForEquals = calculationArray[1];
+    if (currentOperation === 'division' && calculationArray[1] === 0) {
+        clear()
+        divideBy0Checker = true;
+        return screenNumbers.innerText = 'We Gotta Wiseguy';
+    }
+
+    display = calculationArray.reduce(reducer);
+    console.log('display = ' + display)
+    //number display has to equal the calculation so that it is captured by next
+    //storing
+    numbersDisplayArray = [display];
+    //calculation array has to be reset so that adding only evaluates two numbers
+
+    calculationArray = [];
+    console.log('calculationArray after combine = ' + calculationArray)
+    screenNumbers.innerText = display;
+    decimalActive = true;
+}
+
+
+//This is here to reset values while chaining operators. They values were not storing correctly without this function.//
+function afterCombineForOperators() {
+    if (currentOperation === 'division' && calculationArray === []) {
+        return
+    }
+    else {
+        numbersDisplayArray = []
+        calculationArray = [display] //Calc array was being completely reset, this solves by equaling last total//
+        screenNumbers.innerText = display
+        additionButton.classList.remove('operatorBorder');
+        subtractionButton.classList.remove('operatorBorder');
+        multiplicationButton.classList.remove('operatorBorder');
+        divisionButton.classList.remove('operatorBorder');
+    }
+}
+
 
 
 //Current bug that happens when you press an operator twice
@@ -251,6 +418,7 @@ clearButton.addEventListener('click', clear);
 //clears. Probably need to make it default to zero.
 function clear(){
     currentOperation = ' ';
+    storageNumberForEquals = 0;
     numbersDisplayArray = [];
     calculationArray = [];
     screenNumbers.innerText = ' ';
@@ -263,69 +431,13 @@ function clear(){
 
 
 
-//adds numbers to the calculation array based on what was typed into 
-//the calc
-function storeNumbers() {
-    let str = numbersDisplayArray.join('')
-//defaults to 0 if nothing typed. Defaults to 1 if selecting mult or div//
-    if (str === '' && (currentOperation === 'multiplication' || currentOperation ==='division')){
-        str = '1'
-    }
-    else if (str === '') {
-        str = '0'
-    }
-    addToCalc = parseInt(str); //will need to come back when adding decimals//
-    calculationArray.push(addToCalc)
-    console.log('calculationArray = ' + calculationArray)
-    //Resets number display so that a new number can be typed in and parsed
-    numbersDisplayArray = [];
-    screenNumbers.innerText = addToCalc;
+
+backspaceButton.addEventListener('click', backspace);
+
+function backspace(){
+    numbersDisplayArray.splice(-1,1);
+    //addToDisplay();
+    screenNumbers.innerText = numbersDisplayArray.join('');
+
 }
-
-
-function combine(){
-    //This if statement assigns the second number for the equal sign so that
-    //you can continue to press equals to add last number typed
-    divideBy0Checker = false;
-    if(calculationArray[1] == undefined){
-        calculationArray[1] = storageNumberForEquals;
-    }
-    storageNumberForEquals = calculationArray[1];
-    if(currentOperation === 'division' && calculationArray[1] === 0){
-        clear()
-        divideBy0Checker = true;
-        return screenNumbers.innerText = 'We Gotta Wiseguy';
-    }
-    display = calculationArray.reduce(reducer);
-    console.log('display = ' + display)
-//number display has to equal the calculation so that it is captured by next
-//storing
-    numbersDisplayArray = [display];
-//calculation array has to be reset so that adding only evaluates two numbers
-    
-    calculationArray = [];
-    console.log('calculationArray after combine = ' + calculationArray)
-    screenNumbers.innerText = display;
-}
-
-
-
-
-//This is here to reset values while chaining operators. They values were not storing correctly without this function.//
-function afterCombineForOperators(){
-    if(currentOperation === 'division' && calculationArray === []){
-        return
-    }
-    else{
-    numbersDisplayArray = []
-    calculationArray = [display] //Calc array was being completely reset, this solves by equaling last total//
-    screenNumbers.innerText = display
-    additionButton.classList.remove('operatorBorder');
-    subtractionButton.classList.remove('operatorBorder');
-    multiplicationButton.classList.remove('operatorBorder');
-    divisionButton.classList.remove('operatorBorder');
-    }
-}
-
-
 
